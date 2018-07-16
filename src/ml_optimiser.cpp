@@ -104,7 +104,14 @@ void MlOptimiser::read(int argc, char **argv, int rank)
 		// Read in previously calculated parameters
 		if (fn_in != "")
 			read(fn_in, rank);
-		// And look for additional command-line options...
+	
+    	//增加这一个循环为了能够自动替换模型          
+        for(int iclass = 0; iclass < mymodel.nr_classes; iclass++)
+        {
+            mymodel.Iref[iclass].setXmippOrigin();
+        }
+
+        // And look for additional command-line options...
 		parseContinue(argc, argv);
 	}
 	else
