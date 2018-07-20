@@ -126,6 +126,7 @@ public:
 
     void openFile(const FileName &name, int mode = WRITE_READONLY)
     {
+        std::cout << "name: "<<name<<std::endl;
 
     	// Close any file that was left open in this handler
     	if ( !(fimg ==NULL && fhed == NULL) )
