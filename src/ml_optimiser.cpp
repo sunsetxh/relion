@@ -852,6 +852,8 @@ void MlOptimiser::read(FileName fn_in, int rank)
 void MlOptimiser::write(bool do_write_sampling, bool do_write_data, bool do_write_optimiser, bool do_write_model, int random_subset)
 {
 
+    std::cout << "start write "<<iter<<" "<<fn_out<<std::endl;
+
 	FileName fn_root, fn_tmp, fn_model, fn_model2, fn_data, fn_sampling, fn_root2;
 	std::ofstream  fh;
 	if (iter > -1)
