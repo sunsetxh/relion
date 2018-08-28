@@ -158,7 +158,7 @@ double textToDouble(const char* str, int _errno, std::string errmsg)
 
     if (ok)
         return retval;
-
+    std::cout << *str << std::endl;
     REPORT_ERROR( errmsg);
 
     return 0;

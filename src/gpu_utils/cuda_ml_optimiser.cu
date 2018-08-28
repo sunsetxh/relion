@@ -1884,6 +1884,8 @@ void convertAllSquaredDifferencesToWeights(unsigned exp_ipass,
 						std::cerr << " exp_significant_weight[ipart]= " << op.significant_weight[ipart] << std::endl;
 						std::cerr << " exp_max_weight[ipart]= " << op.max_weight[ipart] << std::endl;
 						std::cerr << " ml_model.sigma2_noise[group_id]= " << baseMLO->mymodel.sigma2_noise[group_id] << std::endl;
+                        for (int i = 0; i < PassWeights[ipart].weights.getSize() - 1;i++)
+                            std::cerr << " PassWeights[ipart].weights= " << PassWeights[ipart].weights[i] << std::endl;
 						CRITICAL(ERRSUMWEIGHTZERO); //"op.sum_weight[ipart]==0"
 					}
 

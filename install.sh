@@ -7,7 +7,7 @@ mkdir $BUILD_DIR
 cd $BUILD_DIR
 
 echo 'cmake configure'
-cmake -DCUDA_ARCH=37 ..
+cmake -DCUDA_ARCH=37 -DDoublePrec_GPU=ON ..
 
 echo 'make'
 make -j 8
