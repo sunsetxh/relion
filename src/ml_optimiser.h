@@ -31,6 +31,10 @@
 #include "src/healpix_sampling.h"
 #include "src/helix.h"
 #include "src/local_symmetry.h"
+#include <iostream> 
+#include <fstream> 
+#include <string>
+#include <sstream>
 
 #define ML_SIGNIFICANT_WEIGHT 1.e-8
 #define METADATA_LINE_LENGTH METADATA_LINE_LENGTH_ALL

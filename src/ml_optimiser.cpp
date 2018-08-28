@@ -5264,12 +5264,23 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 
 	// Initialise min_diff and exp_Mweight for this pass
 
+	RFLOAT iclass_min_diff2 = 0;
 	int exp_nr_particles = mydata.ori_particles[my_ori_particle].particles_id.size();
 	long int exp_nr_dir = (do_skip_align || do_skip_rotate) ? 1 : sampling.NrDirections(0, &exp_pointer_dir_nonzeroprior);
 	long int exp_nr_psi = (do_skip_align || do_skip_rotate || do_only_sample_tilt) ? 1 : sampling.NrPsiSamplings(0, &exp_pointer_psi_nonzeroprior);
 	long int exp_nr_trans = (do_skip_align) ? 1 : sampling.NrTranslationalSamplings();
 	long int exp_nr_oversampled_rot = sampling.oversamplingFactorOrientations(exp_current_oversampling);
 	long int exp_nr_oversampled_trans = sampling.oversamplingFactorTranslations(exp_current_oversampling);
+
+	//创建日志文件
+	stringstream ss；
+	ss << "diff2_" << pthread_self();
+	std::ofstream  fh;
+    fh.open(ss.str(), std::ios::out);
+	if(!fh){
+		std::cerr << " Can't write the file " << ss.str() << std::endl;
+	}
+
 
 	exp_Mweight.resize(exp_nr_particles, mymodel.nr_classes * exp_nr_dir * exp_nr_psi * exp_nr_trans * exp_nr_oversampled_rot * exp_nr_oversampled_trans);
 	exp_Mweight.initConstant(-999.);
@@ -5786,6 +5797,10 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 										} // end loop iover_trans
 									} // end if do_proceed translations
 								} // end loop itrans
+								//在这里打印exp_min_diff2
+								if(!fh){
+									fh << iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl; 
+								}
 							} // end loop part_id
 						}// end loop iover_rot
 					} // end if do_proceed orientations
@@ -5793,6 +5808,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 			} // end loop idir
 		} // end if mymodel.pdf_class[iclass] > 0.
 	} // end loop iclass
+	fh.close();
 
 #ifdef TIMING
 	if (my_ori_particle == exp_my_first_ori_particle)
