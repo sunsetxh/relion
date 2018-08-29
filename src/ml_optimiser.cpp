@@ -5274,12 +5274,14 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 
 	RFLOAT iclass_min_diff2 = 99999;
 	//创建日志文件
-	std::string ss="diff2/diff2_";
-	ss+=integerToString(pthread_self().__sig);
+	char str[40];
+	sprintf(str,"diff2/diff2_%lu\0",pthread_self());
+	//std::string ss="diff2/diff2_";
+	//ss+=integerToString(pthread_self());
 	std::ofstream  fh;
-    fh.open(ss.c_str(), std::ios::app);
+    fh.open(str, std::ios::app);
 	if(!fh){
-		std::cout << " Can't write the file " << ss << std::endl;
+		std::cout << " Can't write the file " << str << std::endl;
 	}
 
 
