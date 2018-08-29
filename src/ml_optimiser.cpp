@@ -5273,12 +5273,12 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 	long int exp_nr_oversampled_trans = sampling.oversamplingFactorTranslations(exp_current_oversampling);
 
 	//创建日志文件
-	stringstream ss；
-	ss << "diff2_" << pthread_self();
+	std::string ss="diff2_";
+	ss+=integerToString(pthread_self());
 	std::ofstream  fh;
-    fh.open(ss.str(), std::ios::out);
+    fh.open(ss.c_str(), std::ios::out);
 	if(!fh){
-		std::cerr << " Can't write the file " << ss.str() << std::endl;
+		std::cerr << " Can't write the file " << ss << std::endl;
 	}
 
 
@@ -5798,8 +5798,9 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 									} // end if do_proceed translations
 								} // end loop itrans
 								//在这里打印exp_min_diff2
+								std::cerr << exp_iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl;
 								if(!fh){
-									fh << iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl; 
+									fh << exp_iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl; 
 								}
 							} // end loop part_id
 						}// end loop iover_rot
