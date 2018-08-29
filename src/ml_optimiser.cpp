@@ -5264,7 +5264,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 
 	// Initialise min_diff and exp_Mweight for this pass
 
-	RFLOAT iclass_min_diff2 = 0;
+	
 	int exp_nr_particles = mydata.ori_particles[my_ori_particle].particles_id.size();
 	long int exp_nr_dir = (do_skip_align || do_skip_rotate) ? 1 : sampling.NrDirections(0, &exp_pointer_dir_nonzeroprior);
 	long int exp_nr_psi = (do_skip_align || do_skip_rotate || do_only_sample_tilt) ? 1 : sampling.NrPsiSamplings(0, &exp_pointer_psi_nonzeroprior);
@@ -5272,13 +5272,14 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 	long int exp_nr_oversampled_rot = sampling.oversamplingFactorOrientations(exp_current_oversampling);
 	long int exp_nr_oversampled_trans = sampling.oversamplingFactorTranslations(exp_current_oversampling);
 
+	RFLOAT iclass_min_diff2 = 99999;
 	//创建日志文件
-	std::string ss="diff2_";
+	std::string ss="diff2/diff2_";
 	ss+=integerToString(pthread_self());
 	std::ofstream  fh;
-    fh.open(ss.c_str(), std::ios::out);
+    fh.open(ss.c_str(), std::ios::app);
 	if(!fh){
-		std::cerr << " Can't write the file " << ss << std::endl;
+		std::cout << " Can't write the file " << ss << std::endl;
 	}
 
 
@@ -5781,7 +5782,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 												REPORT_ERROR("ihidden_over >= XSIZE(Mweight)");
 											}
 #endif
-											//std::cerr << " my_ori_particle= " << my_ori_particle<< " ipart= " << ipart << " ihidden_over= " << ihidden_over << " diff2= " << diff2 << std::endl;
+											//std::cout << " my_ori_particle= " << my_ori_particle<< " ipart= " << ipart << " ihidden_over= " << ihidden_over << " diff2= " << diff2 << std::endl;
 											DIRECT_A2D_ELEM(exp_Mweight, ipart, ihidden_over) = diff2;
 #ifdef DEBUG_CHECKSIZES
 											if (ipart >= exp_min_diff2.size())
@@ -5794,20 +5795,23 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 											if (diff2 < exp_min_diff2[ipart])
 												exp_min_diff2[ipart] = diff2;
 
+											if (diff2 < iclass_min_diff2)
+												iclass_min_diff2 = diff2;
+											
 										} // end loop iover_trans
 									} // end if do_proceed translations
 								} // end loop itrans
 								//在这里打印exp_min_diff2
-								std::cerr << exp_iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl;
-								if(!fh){
-									fh << exp_iclass << "\t" << my_ori_particle << "\t" << exp_min_diff2[ipart] << std::endl; 
-								}
+
 							} // end loop part_id
 						}// end loop iover_rot
 					} // end if do_proceed orientations
 				} // end loop ipsi
 			} // end loop idir
 		} // end if mymodel.pdf_class[iclass] > 0.
+		//std::cout << my_ori_particle << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl;
+		fh << my_ori_particle << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl; 
+		iclass_min_diff2 = 9999;
 	} // end loop iclass
 	fh.close();
 
