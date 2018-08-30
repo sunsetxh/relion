@@ -5272,14 +5272,16 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 	long int exp_nr_oversampled_rot = sampling.oversamplingFactorOrientations(exp_current_oversampling);
 	long int exp_nr_oversampled_trans = sampling.oversamplingFactorTranslations(exp_current_oversampling);
 
-	RFLOAT iclass_min_diff2 = 99999;
+	RFLOAT iclass_min_diff2 = 999999999999;
 	//创建日志文件
-	std::string ss="diff2/diff2_";
-	ss+=integerToString(pthread_self().__sig);
+	char str[40];
+	sprintf(str,"diff2/diff2_%lu\0",pthread_self());
+	//std::string ss="diff2/diff2_";
+	//ss+=integerToString(pthread_self());
 	std::ofstream  fh;
-    fh.open(ss.c_str(), std::ios::app);
+    fh.open(str, std::ios::app);
 	if(!fh){
-		std::cout << " Can't write the file " << ss << std::endl;
+		std::cout << " Can't write the file " << str << std::endl;
 	}
 
 
@@ -5810,8 +5812,8 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 			} // end loop idir
 		} // end if mymodel.pdf_class[iclass] > 0.
 		//std::cout << my_ori_particle << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl;
-		fh << my_ori_particle << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl; 
-		iclass_min_diff2 = 9999;
+		fh << my_ori_particle << "\t" << mydata.ori_particles[my_ori_particle].name << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl; 
+		iclass_min_diff2 = 999999999999;
 	} // end loop iclass
 	fh.close();
 
