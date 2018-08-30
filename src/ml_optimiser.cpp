@@ -5272,11 +5272,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 	long int exp_nr_oversampled_rot = sampling.oversamplingFactorOrientations(exp_current_oversampling);
 	long int exp_nr_oversampled_trans = sampling.oversamplingFactorTranslations(exp_current_oversampling);
 
-<<<<<<< HEAD
 	RFLOAT iclass_min_diff2 = 999999999999;
-=======
-	RFLOAT iclass_min_diff2 = 999999;
->>>>>>> 860c2e7c7aa8d1567563665a9d0498aee3dd727e
 	//创建日志文件
 	char str[40];
 	sprintf(str,"diff2/diff2_%lu\0",pthread_self());
