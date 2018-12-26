@@ -23,6 +23,7 @@
 //#define DEBUG_BODIES
 //#define DEBUG_HELICAL_ORIENTATIONAL_SEARCH
 //#define PRINT_GPU_MEM_INFO
+#define RELION_TESTING
 
 #ifdef TIMING
 		#define RCTIC(timer,label) (timer.tic(label))
@@ -5274,7 +5275,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 
 	RFLOAT iclass_min_diff2 = 999999999999;
 	//创建日志文件
-	char str[40];
+	char str[50];
 	sprintf(str,"%s_diff2_id%lu\0",fn_out,pthread_self());
 	//std::string ss="diff2/diff2_";
 	//ss+=integerToString(pthread_self());
@@ -5812,8 +5813,11 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 			} // end loop idir
 		} // end if mymodel.pdf_class[iclass] > 0.
 		//std::cout << my_ori_particle << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl;
-		fh << my_ori_particle << "\t" << mydata.ori_particles[my_ori_particle].name << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl; 
-		iclass_min_diff2 = 999999999999;
+		if(iter != 1) {
+			fh << my_ori_particle << "\t" << mydata.ori_particles[my_ori_particle].name << "\t" << exp_iclass << "\t" << iclass_min_diff2 << std::endl; 
+			iclass_min_diff2 = 999999999999;
+		}
+
 	} // end loop iclass
 	fh.close();
 
