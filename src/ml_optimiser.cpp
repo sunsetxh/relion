@@ -5275,7 +5275,7 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 	RFLOAT iclass_min_diff2 = 999999999999;
 	//创建日志文件
 	char str[40];
-	sprintf(str,"diff2/diff2_%lu\0",pthread_self());
+	sprintf(str,"%s_diff2_id%lu\0",fn_out,pthread_self());
 	//std::string ss="diff2/diff2_";
 	//ss+=integerToString(pthread_self());
 	std::ofstream  fh;
