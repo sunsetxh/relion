@@ -18,7 +18,7 @@
  * author citations must be preserved.
  ***************************************************************************/
 
-//#define DEBUG
+#define DEBUG
 //#define DEBUG_CHECKSIZES
 //#define DEBUG_BODIES
 //#define DEBUG_HELICAL_ORIENTATIONAL_SEARCH
@@ -5275,12 +5275,12 @@ void MlOptimiser::getAllSquaredDifferences(long int my_ori_particle, int ibody, 
 
 	RFLOAT iclass_min_diff2 = 999999999999;
 	//创建日志文件
-	char str[50];
-	sprintf(str,"%s_diff2_id%lu\0",fn_out,pthread_self());
+	stringstream ss;
+	ss<<pthread_self();
 	//std::string ss="diff2/diff2_";
 	//ss+=integerToString(pthread_self());
 	std::ofstream  fh;
-    fh.open(str, std::ios::app);
+    fh.open(fn_out+"_diff2_id"+ss.str(), std::ios::app);
 	if(!fh){
 		std::cout << " Can't write the file " << str << std::endl;
 	}
